@@ -1,11 +1,15 @@
 <script>
+import LayoutNav from './components/LayoutNav.vue'
 export default {
-    name: 'LayoutPage'
+    name: 'LayoutPage',
+    components: {
+      LayoutNav
+    }
 }
 </script>
 
 <template>
-  首頁
+  <LayoutNav></LayoutNav>
 </template>
 
 <style>
