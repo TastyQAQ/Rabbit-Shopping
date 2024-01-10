@@ -11,6 +11,13 @@
                         <a href="javascript:;"><i class="iconfont icon-user"></i>周杰伦</a>
                     </li>
                     <li>
+                        <el-popconfirm title="確定要登出嗎?" confirm-button-text="確定" cancel-button-text="取消">
+                        <template #reference>
+                            <a href="javascript:;">退出登入</a>
+                        </template>
+                        </el-popconfirm>
+                    </li>
+                    <li>
                         <a href="javascript:;">我的訂單</a>
                     </li>
                     <li>
