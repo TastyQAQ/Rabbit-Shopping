@@ -15,6 +15,7 @@ export default {
 <template>
   <LayoutNav></LayoutNav>
   <LayoutHeader></LayoutHeader>
+  <router-view></router-view>
   <LayoutFooter></LayoutFooter>
 </template>
 

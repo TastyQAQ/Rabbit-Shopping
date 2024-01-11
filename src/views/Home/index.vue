@@ -1,11 +1,27 @@
 <script>
+import HomeCategory from './components/HomeCategory.vue'
+import HomeBanner from './components/HomeBanner.vue'
+import HomeNew from './components/HomeNew.vue'
+import HomeHot from './components/HomeHot.vue'
+import HomeProduct from './components/HomeProduct.vue'
 export default {
-    name: 'HomePage'
+    name: 'HomePage',
+    components: {
+      HomeCategory,
+      HomeBanner,
+      HomeNew,
+      HomeHot,
+      HomeProduct
+    }
 }
 </script>
 
 <template>
-  home頁
+  <HomeCategory></HomeCategory>
+  <HomeBanner></HomeBanner>
+  <HomeNew></HomeNew>
+  <HomeHot></HomeHot>
+  <HomeProduct></HomeProduct>
 </template>
 
 <style>
