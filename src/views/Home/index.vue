@@ -17,8 +17,10 @@ export default {
 </script>
 
 <template>
-  <HomeCategory></HomeCategory>
-  <HomeBanner></HomeBanner>
+  <div class="container">
+    <HomeCategory></HomeCategory>
+    <HomeBanner></HomeBanner>
+  </div>
   <HomeNew></HomeNew>
   <HomeHot></HomeHot>
   <HomeProduct></HomeProduct>
