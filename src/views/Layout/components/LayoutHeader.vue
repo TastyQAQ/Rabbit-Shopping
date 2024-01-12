@@ -1,35 +1,25 @@
 <script setup>
-import { getCategoryList } from '@/apis/layout'
-import { onMounted, ref } from 'vue';
-import { useWindowScroll } from '@vueuse/core'
-const { y } = useWindowScroll()
-const categoryList = ref([])
-const getCategory = async() => {
-    const res = await getCategoryList()
-    categoryList.value = res.result
-}
-onMounted(() => { getCategory() })
+// 導入pinia倉庫
+import { useCategoryStore } from '@/stores/category'
+const categoryStore = useCategoryStore()
 </script>
 
 <template>
-    <header class="app-header" :class="{ scroll: y > 78 }">
+    <header class="app-header">
         <div class="container">
             <h1 class="logo">
-                <router-link to="/" :class="{ small: y > 78 }">小兔鮮</router-link>
+                <router-link to="/">小兔鮮</router-link>
             </h1>
             <ul class="app-header-nav">
                 <li>
                     <router-link to="/">首頁</router-link>
                 </li>
-                <li v-for="item in categoryList" :key="item.id">
+                <!-- 由於在layout頁面已調用獲取categoryList方法, 因此可以直接使用categoryStore.categoryList獲取列表 -->
+                <li v-for="item in categoryStore.categoryList" :key="item.id">
                     <router-link to="/">{{item.name}}</router-link>
                 </li>
             </ul>
-            <div class="right" v-if=" y > 78">
-              <RouterLink to="/">品牌</RouterLink>
-              <RouterLink to="/">專題</RouterLink>
-            </div>
-            <div class="search" v-else>
+            <div class="search">
               <i class="iconfont icon-search"></i>
               <input type="text" placeholder="搜一搜">
             </div>
@@ -41,15 +31,6 @@ onMounted(() => { getCategory() })
 .app-header {
   background: #fff;
   width: 100%;
-  height: 132px;
-  z-index: 999;
-  &.scroll {
-    transition: all 0.3s linear;
-    height: 80px;
-    position: fixed;
-    top: 0;
-    left: 0;
-  }
 
   .container {
     display: flex;
@@ -59,17 +40,12 @@ onMounted(() => { getCategory() })
 
   .logo {
     width: 200px;
-    height: 100%;
     a {
       display: block;
       width: 100%;
-      height: 100%;
+      height: 132px;
       text-indent: -9999px;
       background: url('@/assets/images/logo.png') no-repeat center 18px / contain;
-      &.small {
-        transition: all 0.3s linear;
-        background: url('@/assets/images/logo.png') no-repeat right 2px / 160px auto;
-      }
     }
   }
   .app-header-nav {
@@ -104,24 +80,7 @@ onMounted(() => { getCategory() })
       color: #666;
     }
   }
-  .right {
-    width: 220px;
-    display: flex;
-    text-align: center;
-    padding-left: 40px;
-    border-left: 2px solid $xtxColor;
-
-    a {
-      width: 38px;
-      margin-right: 40px;
-      font-size: 16px;
-      line-height: 1;
-
-      &:hover {
-        color: $xtxColor;
-      }
-    }
-  }
+  
   .cart {
     width: 50px;
 
