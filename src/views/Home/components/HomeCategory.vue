@@ -35,6 +35,7 @@ const categoryStore = useCategoryStore()
     width: 250px;
     height: 500px;
     position: relative;
+    z-index: 99;
     .menu {
         li {
             padding-left: 40px;
