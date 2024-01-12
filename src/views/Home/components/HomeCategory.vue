@@ -1,23 +1,24 @@
 <script setup>
-
+import { useCategoryStore } from '@/stores/category';
+const categoryStore = useCategoryStore()
 </script>
 
 <template>
     <div class="home-category">
         <ul class="menu">
-            <li v-for="item in 9" :key="item">
-                <router-link to="/">居家</router-link>
-                <router-link to="/" v-for="i in 2" :key="i">茶咖酒具</router-link>
+            <li v-for="item in categoryStore.categoryList" :key="item.id">
+                <router-link to="/">{{ item.name }}</router-link>
+                <router-link to="/" v-for="i in item.children.slice(0, 2)" :key="i.id">{{ i.name }}</router-link>
                 <div class="layer">
                     <h4>分類推薦<small>根據您的購買紀錄或瀏覽紀錄推薦</small></h4>
                     <ul>
-                        <li v-for="i in 5" :key="i">
+                        <li v-for="i in item.goods" :key="i.id">
                             <router-link to="/">
-                                <img src="" alt="">
+                                <img :src="i.picture" alt="">
                                 <div class="info">
-                                    <p class="name">1</p>
-                                    <p class="decs">2</p>
-                                    <p class="price"><i>$</i>3</p>
+                                    <p class="name ellipsis">{{i.name}}</p>
+                                    <p class="desc ellipsis-2">{{i.desc}}</p>
+                                    <p class="price"><i>$</i>{{ i.price }}</p>
                                 </div>
                             </router-link>
                         </li>
