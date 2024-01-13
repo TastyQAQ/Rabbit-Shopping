@@ -7,3 +7,7 @@ export function getBannerImg() {
 export function getNewProduct() {
     return request.get('/home/new')
 }
+// 獲取人氣推薦
+export function getHotProduct() {
+    return request.get('/home/hot')
+}

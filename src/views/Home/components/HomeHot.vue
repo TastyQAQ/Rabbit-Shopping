@@ -1,34 +1,29 @@
 <script setup>
 import HomePanel from './HomePanel.vue'
-import { getNewProduct } from '@/apis/home'
+import { getHotProduct } from '@/apis/home'
 import { ref } from 'vue'
 
-const NewProduct = ref([])
-const getNew = async() => {
-    const res = await getNewProduct()
-    NewProduct.value = res.result
+const hotProduct = ref([])
+const getHot = async() => {
+    const res = await getHotProduct()
+    hotProduct.value = res.result
 }
-getNew()
-
+getHot()
 </script>
 
 <template>
-    <!-- 標題組件(共用) -->
-    <HomePanel title="新鮮好物" subTitle="新鮮出爐 品質靠譜">
-        <!-- 具名插槽 -->
-        <template #hot>
-            <ul class="goods-list">
-                <li v-for="item in NewProduct" :key="item.id">
-                    <router-link to="`/detail/${item.id}`">
-                        <img :src="item.picture" alt="">
-                        <div class="info">
-                            <p>{{ item.name }}</p>
-                            <p class="price">$ {{ item.price }}</p>
-                        </div>
-                    </router-link>
-                </li>
-            </ul>
-        </template>
+    <HomePanel title="人氣推薦" subTitle="人氣爆款 不容錯過">
+        <ul class="goods-list">
+            <li v-for="item in hotProduct" :key="item.id">
+                <router-link to="/">
+                    <img :src="item.picture" alt="">
+                    <div class="info">
+                        <p>{{ item.title }}</p>
+                        <p class="desc">{{ item.alt }}</p>
+                    </div>
+                </router-link>
+            </li>
+        </ul>
     </HomePanel>
 </template>
 
@@ -59,13 +54,11 @@ getNew()
       font-size: 22px;
       padding: 12px 12px 0 12px;
       text-align: center;
-      text-overflow: ellipsis;
-      overflow: hidden;
-      white-space: nowrap;
     }
 
-    .price {
-      color: $priceColor;
+    .desc {
+      color: #999;
+      font-size: 18px;
     }
   }
 }

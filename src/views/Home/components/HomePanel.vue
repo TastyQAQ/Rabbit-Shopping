@@ -19,6 +19,7 @@ defineProps({
             </div>
             <div>
                 <slot name="hot"></slot>
+                <slot></slot>
             </div>
         </div>
     </div>
