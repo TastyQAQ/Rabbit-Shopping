@@ -11,3 +11,7 @@ export function getNewProduct() {
 export function getHotProduct() {
     return request.get('/home/hot')
 }
+// 獲取首頁商品數據
+export function getGoodsList() {
+    return request.get('/home/goods')
+}
