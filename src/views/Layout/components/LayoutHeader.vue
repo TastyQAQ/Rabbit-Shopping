@@ -16,7 +16,7 @@ const categoryStore = useCategoryStore()
                 </li>
                 <!-- 由於在layout頁面已調用獲取categoryList方法, 因此可以直接使用categoryStore.categoryList獲取列表 -->
                 <li v-for="item in categoryStore.categoryList" :key="item.id">
-                    <router-link to="/">{{item.name}}</router-link>
+                    <router-link :to="`/category/${item.id}`" :key="item.id" active-class="active">{{item.name}}</router-link>
                 </li>
             </ul>
             <div class="search">

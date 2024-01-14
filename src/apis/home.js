@@ -1,7 +1,7 @@
 import request from '@/utils/http'
 // 獲取輪播圖
-export function getBannerImg() {
-    return request.get('/home/banner')
+export function getBannerImg(distributionSite) {
+    return request.get('/home/banner', { params: { distributionSite } })
 }
 // 獲取新鮮好物數據
 export function getNewProduct() {
