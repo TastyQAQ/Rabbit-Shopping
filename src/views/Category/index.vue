@@ -1,29 +1,10 @@
 <script setup>
-import { getCategoryList } from '@/apis/category';
-import { getBannerImg } from '@/apis/home';
-import { ref, onMounted } from 'vue';
-import { useRoute, onBeforeRouteUpdate  } from 'vue-router';
 import GoodsItem from '@/components/GoodsItem.vue'
+import { useCategory } from '@/composables/useCategory'
+import { useBanner } from '@/composables/useBanner'
 
-const route = useRoute()
-const categoryList = ref({})
-const getCategory = async(id) => {
-  const { result } = await getCategoryList(id)
-  categoryList.value = result
-}
-getCategory(route.params.id)
-
-// vueRouter4 導航守衛onBeforeRouteUpdate
-onBeforeRouteUpdate((to) => {
-      getCategory(to.params.id)
-})
-
-const bannerImg = ref([])
-const getBanner = async() => {
-  const { result } = await getBannerImg('2')
-  bannerImg.value = result
-}
-onMounted(() => {getBanner()})
+const categoryList = useCategory()
+const bannerImg = useBanner()
 </script>
 
 <template>
