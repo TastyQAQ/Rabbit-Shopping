@@ -22,12 +22,12 @@ const bannerImg = useBanner()
                 <img :src="item.imgUrl" alt="">
             </el-carousel-item>
         </el-carousel>
-    </div>
+      </div>
     <div class="sub-list">
       <h3>全部分類</h3>
       <ul>
         <li v-for="i in categoryList.children" :key="i.id">
-          <RouterLink to="/">
+          <RouterLink :to="`/category/sub/${i.id}`">
             <img :src="i.picture" />
             <p>{{ i.name }}</p>
           </RouterLink>
