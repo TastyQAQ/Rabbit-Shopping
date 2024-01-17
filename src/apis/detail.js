@@ -3,3 +3,7 @@ import request from '@/utils/http'
 export function getGoodsDetail(id) {
     return request.get('/goods', { params: { id } })
 }
+// 獲取熱榜商品
+export function getHotGoodsList(params) {
+    return request.get('/goods/hot', params)
+}
