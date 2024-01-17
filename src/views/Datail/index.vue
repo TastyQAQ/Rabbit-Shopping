@@ -1,17 +1,26 @@
 <script setup>
+import { getGoodsDetail } from '@/apis/detail'
+import { ref, onMounted } from 'vue'
+import { useRoute } from 'vue-router'
 
-
+const route = useRoute()
+const goodsDetail = ref({})
+const getDetail = async() => {
+    const { result } = await getGoodsDetail(route.params.id)
+    goodsDetail.value = result
+}
+onMounted(() => { getDetail() })
 </script>
 
 <template>
   <div class="xtx-goods-page">
-    <div class="container">
+    <div class="container" v-if="goodsDetail.categories">
       <div class="bread-container">
         <el-breadcrumb separator=">">
           <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-          <el-breadcrumb-item :to="{ path: '/' }">母嬰</el-breadcrumb-item>
-          <el-breadcrumb-item :to="{ path: '/' }">跑步鞋</el-breadcrumb-item>
-          <el-breadcrumb-item>抓绒保暖，毛毛虫子儿童运动鞋</el-breadcrumb-item>
+          <el-breadcrumb-item :to="{ path: `/category/${goodsDetail.categories[1].id}` }">{{ goodsDetail.categories[1].name }}</el-breadcrumb-item>
+          <el-breadcrumb-item :to="{ path: `/category/sub/${goodsDetail.categories[0].id}` }">{{ goodsDetail.categories[0].name }}</el-breadcrumb-item>
+          <el-breadcrumb-item>{{ goodsDetail.name }}</el-breadcrumb-item>
         </el-breadcrumb>
       </div>
       <!-- 商品訊息 -->
@@ -25,46 +34,46 @@
               <ul class="goods-sales">
                 <li>
                   <p>銷量人氣</p>
-                  <p> 100+ </p>
+                  <p> {{ goodsDetail.salesCount }} </p>
                   <p><i class="iconfont icon-task-filling"></i>銷量人氣</p>
                 </li>
                 <li>
                   <p>商品評價</p>
-                  <p>200+</p>
+                  <p>{{ goodsDetail.commentCount }}</p>
                   <p><i class="iconfont icon-comment-filling"></i>查看評價</p>
                 </li>
                 <li>
                   <p>收藏人氣</p>
-                  <p>300+</p>
+                  <p>{{ goodsDetail.collectCount }}</p>
                   <p><i class="iconfont icon-favorite-filling"></i>收藏商品</p>
                 </li>
                 <li>
                   <p>品牌信息</p>
-                  <p>400+</p>
+                  <p>{{ goodsDetail.brand.name }}</p>
                   <p><i class="iconfont icon-dynamic-filling"></i>品牌主頁</p>
                 </li>
               </ul>
             </div>
             <div class="spec">
               <!-- 商品訊息區 -->
-              <p class="g-name"> 抓绒保暖，毛毛虫儿童鞋 </p>
-              <p class="g-desc">好穿 </p>
+              <p class="g-name"> {{ goodsDetail.name }} </p>
+              <p class="g-desc">{{ goodsDetail.desc }} </p>
               <p class="g-price">
-                <span>200</span>
-                <span> 100</span>
+                <span>{{ goodsDetail.oldPrice }}</span>
+                <span> {{ goodsDetail.price }}</span>
               </p>
               <div class="g-service">
                 <dl>
-                  <dt>促销</dt>
+                  <dt>促銷</dt>
                   <dd>12月好物放送，App领券购买直降120元</dd>
                 </dl>
                 <dl>
-                  <dt>服务</dt>
+                  <dt>服務</dt>
                   <dd>
-                    <span>无忧退货</span>
+                    <span>無憂退貨</span>
                     <span>快速退款</span>
-                    <span>免费包邮</span>
-                    <a href="javascript:;">了解详情</a>
+                    <span>免運費</span>
+                    <a href="javascript:;">了解詳情</a>
                   </dd>
                 </dl>
               </div>
@@ -91,13 +100,13 @@
                 <div class="goods-detail">
                   <!-- 屬性 -->
                   <ul class="attrs">
-                    <li v-for="item in 3" :key="item.value">
-                      <span class="dt">白色</span>
-                      <span class="dd">纯棉</span>
+                    <li v-for="item in goodsDetail.details.properties" :key="item.value">
+                      <span class="dt">{{ item.name }}</span>
+                      <span class="dd">{{ item.value }}</span>
                     </li>
                   </ul>
                   <!-- 圖片 -->
-
+                    <img v-for="item in goodsDetail.details.pictures" :key="item.value" :src="item" alt="">
                 </div>
               </div>
             </div>

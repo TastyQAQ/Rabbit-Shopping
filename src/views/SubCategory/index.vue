@@ -52,7 +52,7 @@ const load = async() => {
       <div class="bread-container">
         <el-breadcrumb separator=">">
           <el-breadcrumb-item :to="{ path: '/' }">首頁</el-breadcrumb-item>
-          <el-breadcrumb-item :to="{ path: `/category/${subCategory.parentId}` }">居家</el-breadcrumb-item>
+          <el-breadcrumb-item :to="{ path: `/category/${subCategory.parentId}` }">{{ subCategory.parentName }}</el-breadcrumb-item>
           <el-breadcrumb-item>{{ subCategory.name }}</el-breadcrumb-item>
         </el-breadcrumb>
       </div>

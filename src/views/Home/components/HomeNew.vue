@@ -19,7 +19,7 @@ getNew()
         <template #hot>
             <ul class="goods-list">
                 <li v-for="item in NewProduct" :key="item.id">
-                    <router-link to="`/detail/${item.id}`">
+                    <router-link :to="`/detail/${item.id}`">
                         <img :src="item.picture" alt="">
                         <div class="info">
                             <p>{{ item.name }}</p>
