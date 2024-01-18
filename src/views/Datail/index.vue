@@ -1,5 +1,6 @@
 <script setup>
 import GoodsHot from './components/GoodsHot.vue'
+import GoodsImage from './components/GoodsImage.vue'
 import { getGoodsDetail } from '@/apis/detail'
 import { ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
@@ -30,7 +31,7 @@ onMounted(() => { getDetail() })
           <div class="goods-info">
             <div class="media">
               <!--圖片預覽區 -->
-
+              <GoodsImage :img="goodsDetail.mainPictures"></GoodsImage>
               <!-- 統計數量 -->
               <ul class="goods-sales">
                 <li>
