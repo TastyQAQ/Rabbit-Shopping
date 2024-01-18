@@ -1,12 +1,13 @@
 <script setup>
-
+import { useRouter } from 'vue-router'
+const router = useRouter()
 </script>
 
 <template>
     <nav class="app-topnav">
         <div class="container">
             <ul>
-                <template v-if="true">
+                <template v-if="false">
                     <li>
                         <a href="javascript:;"><i class="iconfont icon-user"></i>周杰伦</a>
                     </li>
@@ -26,7 +27,7 @@
                 </template>
                 <template v-else >
                     <li>
-                        <a href="javascript:;">請先登入</a>
+                        <a href="javascript:;" @click="router.push('login')">請先登入</a>
                     </li>
                     <li>
                         <a href="javascript:;">幫助中心</a>
