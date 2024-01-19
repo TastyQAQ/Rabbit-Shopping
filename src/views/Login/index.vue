@@ -1,5 +1,38 @@
 <script setup>
+import { ref } from 'vue'
+import { getUserInfo } from '@/apis/login'
 
+const loginRef = ref()
+const loginForm = ref({
+  account: '',
+  password: '',
+  agree: false
+})
+const loginRules = {
+  account: [
+    { required: true, message: '請輸入用戶名或手機號碼', trigger: 'blur' }
+  ],
+  password: [
+    { required: true, message: '請輸入密碼', trigger: 'blur' },
+    { min: 6, max: 14, message: '密碼長度為6-14個字符', trigger: 'blur' }
+  ],
+  agree: [
+    { validator: (rule, value, callback) => {
+        return value ? callback() : new Error('請勾選同意隱私條款和服務條款')
+    }, trigger: 'blur' }
+  ]
+}
+
+const subLogin = () => {
+  loginRef.value.validate(async(isOk) => {
+    if(isOk) {
+      await getUserInfo(loginForm.value)
+    }
+    else {
+      console.log('較驗失敗');
+    }
+  })
+}
 </script>
 
 
@@ -24,20 +57,19 @@
         </nav>
         <div class="account-box">
           <div class="form">
-            <el-form label-position="right" label-width="60px"
-              status-icon>
-              <el-form-item  label="帳號">
-                <el-input/>
+            <el-form ref="loginRef" :model="loginForm" :rules="loginRules" label-position="right" label-width="60px" status-icon>
+              <el-form-item  label="帳號" prop="account">
+                <el-input v-model="loginForm.account" />
               </el-form-item>
-              <el-form-item label="密碼">
-                <el-input/>
+              <el-form-item label="密碼" prop="password">
+                <el-input v-model="loginForm.password" />
               </el-form-item>
-              <el-form-item label-width="22px">
-                <el-checkbox  size="large">
+              <el-form-item label-width="22px" prop="agree">
+                <el-checkbox  size="large" v-model="loginForm.agree">
                   我已同意隱私條款和服務條款
                 </el-checkbox>
               </el-form-item>
-              <el-button size="large" class="subBtn">點擊登入</el-button>
+              <el-button size="large" class="subBtn" @click="subLogin">點擊登入</el-button>
             </el-form>
           </div>
         </div>
