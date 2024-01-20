@@ -1,6 +1,9 @@
 <script setup>
 import { ref } from 'vue'
-import { getUserInfo } from '@/apis/login'
+import { useUserStore } from '@/stores/user'
+import { ElMessage } from 'element-plus'
+import 'element-plus/theme-chalk/el-message.css'
+import { useRouter } from 'vue-router'
 
 const loginRef = ref()
 const loginForm = ref({
@@ -23,10 +26,14 @@ const loginRules = {
   ]
 }
 
+const userStore = useUserStore()
+const router = useRouter()
 const subLogin = () => {
   loginRef.value.validate(async(isOk) => {
     if(isOk) {
-      await getUserInfo(loginForm.value)
+      await userStore.getUserInfo(loginForm.value)
+      ElMessage({ type: 'success', message: '登入成功' })
+      router.replace({ path: '/' })
     }
     else {
       console.log('較驗失敗');

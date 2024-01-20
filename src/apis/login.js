@@ -1,5 +1,5 @@
 import request from '@/utils/http'
 // 登入獲取用戶資料
-export function getUserInfo(data) {
+export function loginApi(data) {
     return request.post('/login', data)
 }
