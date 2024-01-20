@@ -35,9 +35,6 @@ const subLogin = () => {
       ElMessage({ type: 'success', message: '登入成功' })
       router.replace({ path: '/' })
     }
-    else {
-      console.log('較驗失敗');
-    }
   })
 }
 </script>
