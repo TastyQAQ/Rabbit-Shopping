@@ -2,6 +2,7 @@ import axios from 'axios'
 import { ElMessage } from 'element-plus'
 import 'element-plus/theme-chalk/el-message.css'
 import { useUserStore } from '@/stores/user'
+import router from '@/router'
 
 // 創建axios實例
 const http = axios.create({
@@ -27,6 +28,11 @@ http.interceptors.response.use((response) => {
     // 对响应错误做点什么
     // 登入失敗錯誤提示
     ElMessage({ type: 'error', message: error.response.data.message })
+    if (error.response.status === 401) {
+      const userStore = useUserStore()
+      userStore.clearUserInfo()
+      router.push('/login')
+    }
     return Promise.reject(error);
   });
 

@@ -18,11 +18,17 @@ export const useCartStore = defineStore('cart', () => {
     }
     const allCount = 0
     const allPrice = 100
+    const delCart = (id) => {
+        cartList.value = cartList.value.filter(item => {
+            item.skuId !== id
+        })
+    }
     return {
         cartList,
         addCart,
         allCount,
-        allPrice
+        allPrice,
+        delCart
     }
 }, {
   persist: true
