@@ -16,9 +16,13 @@ export const useCartStore = defineStore('cart', () => {
             cartList.value.push(goods)
         }
     }
+    const allCount = 0
+    const allPrice = 100
     return {
         cartList,
-        addCart
+        addCart,
+        allCount,
+        allPrice
     }
 }, {
   persist: true
