@@ -27,7 +27,7 @@ http.interceptors.response.use((response) => {
     // 超出 2xx 范围的状态码都会触发该函数。
     // 对响应错误做点什么
     // 登入失敗錯誤提示
-    ElMessage({ type: 'error', message: error.response.data.message })
+    ElMessage.error(error.response.data.message)
     if (error.response.status === 401) {
       const userStore = useUserStore()
       userStore.clearUserInfo()

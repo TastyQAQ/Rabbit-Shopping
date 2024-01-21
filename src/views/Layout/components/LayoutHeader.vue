@@ -3,7 +3,7 @@
 import { useCategoryStore } from '@/stores/category'
 const categoryStore = useCategoryStore()
 // 導入購物車模塊
-import HeaderCart from '@/components/HeaderCart.vue'
+import HeaderCart from './HeaderCart.vue'
 </script>
 
 <template>

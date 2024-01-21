@@ -15,8 +15,39 @@ const getDetail = async() => {
 onMounted(() => { getDetail() })
 
 // sku規格被操作時
+const skuObj = ref({})
 const skuChange = (sku) => {
-  console.log(sku)
+  skuObj.value = sku
+  // console.log(skuObj.value)
+}
+
+// 更改數量操作
+const num = ref(1)
+const numChange = (count) => {
+  num.value = count
+}
+
+// 加入購物車
+import { useCartStore } from '@/stores/cart'
+import { ElMessage } from 'element-plus'
+const cartStore = useCartStore()
+const addCart = () => {
+  if(skuObj.value.skuId) {
+    cartStore.addCart({
+      id: goodsDetail.value.id,
+      name: goodsDetail.value.name,
+      picture: goodsDetail.value.mainPictures[0],
+      price: goodsDetail.value.price,
+      count: num.value,
+      skuId: skuObj.value.skuId,
+      attrsText: skuObj.value.specsText,
+      selected: true
+    })
+    ElMessage.success('添加成功')
+  } else {
+    ElMessage.warning('請選擇商品規格')
+  }
+  
 }
 </script>
 
@@ -25,7 +56,7 @@ const skuChange = (sku) => {
     <div class="container" v-if="goodsDetail.categories">
       <div class="bread-container">
         <el-breadcrumb separator=">">
-          <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+          <el-breadcrumb-item :to="{ path: '/' }">首頁</el-breadcrumb-item>
           <el-breadcrumb-item :to="{ path: `/category/${goodsDetail.categories[1].id}` }">{{ goodsDetail.categories[1].name }}</el-breadcrumb-item>
           <el-breadcrumb-item :to="{ path: `/category/sub/${goodsDetail.categories[0].id}` }">{{ goodsDetail.categories[0].name }}</el-breadcrumb-item>
           <el-breadcrumb-item>{{ goodsDetail.name }}</el-breadcrumb-item>
@@ -67,8 +98,8 @@ const skuChange = (sku) => {
               <p class="g-name"> {{ goodsDetail.name }} </p>
               <p class="g-desc">{{ goodsDetail.desc }} </p>
               <p class="g-price">
-                <span>{{ goodsDetail.oldPrice }}</span>
-                <span> {{ goodsDetail.price }}</span>
+                <span> {{ goodsDetail.price }}<small> 起</small></span>
+                <span>{{ goodsDetail.oldPrice }}<small> 起</small></span>
               </p>
               <div class="g-service">
                 <dl>
@@ -88,10 +119,10 @@ const skuChange = (sku) => {
               <!-- sku组件 -->
               <GoodsSku :goods="goodsDetail" @change="skuChange"></GoodsSku>
               <!-- 數據组件 -->
-
+              <el-input-number v-model="num" @change="numChange" />
               <!-- 按鈕组件 -->
               <div>
-                <el-button size="large" class="btn">
+                <el-button size="large" class="btn" @click="addCart">
                   加入購物車
                 </el-button>
               </div>
@@ -201,7 +232,7 @@ const skuChange = (sku) => {
 
     span {
       &::before {
-        content: "¥";
+        content: "$";
         font-size: 14px;
       }
 
@@ -215,6 +246,9 @@ const skuChange = (sku) => {
         color: #999;
         text-decoration: line-through;
         font-size: 16px;
+      }
+      small {
+        font-size: 13px;
       }
     }
   }
