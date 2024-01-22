@@ -47,7 +47,7 @@ const cartStore = useCartStore()
               </td>
               <td class="tc">
                 <p>
-                  <el-popconfirm title="確定要刪除嗎?" confirm-button-text="確定" cancel-button-text="取消" @confirm="delCart(i)">
+                  <el-popconfirm title="確定要刪除嗎?" confirm-button-text="確定" cancel-button-text="取消" @confirm="cartStore.delCart(i)">
                     <template #reference>
                       <a href="javascript:;">刪除</a>
                     </template>
