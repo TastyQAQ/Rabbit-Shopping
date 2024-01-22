@@ -16,23 +16,34 @@ export const useCartStore = defineStore('cart', () => {
             cartList.value.push(goods)
         }
     }
+    // 商品總數量
     const allCount = computed(() => {
         return cartList.value.reduce((prev, current) => { return prev + current.count }, 0)
     })
+    // 商品總價
     const allPrice = computed(() => {
         return cartList.value.reduce((prev, current) => { return prev + (current.price * current.count) }, 0)
     })
+    // 從購物車移除
     const delCart = (id) => {
         cartList.value = cartList.value.filter(item => {
             return item.skuId !== id
         })
+    }
+    // 商品單選功能
+    const singleCheck = (skuId, selected) => {
+        const item = cartList.value.find(item => {
+            return item.skuId === skuId
+        })
+        item.selected = selected
     }
     return {
         cartList,
         addCart,
         allCount,
         allPrice,
-        delCart
+        delCart,
+        singleCheck
     }
 }, {
   persist: true

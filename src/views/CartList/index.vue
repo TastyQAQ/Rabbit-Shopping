@@ -1,6 +1,11 @@
 <script setup>
 import { useCartStore } from '@/stores/cart'
 const cartStore = useCartStore()
+
+const singleCheck = (skuId, selected) => {
+  // console.log(skuId, selected);
+  cartStore.singleCheck(skuId, selected)
+}
 </script>
 
 <template>
@@ -24,7 +29,7 @@ const cartStore = useCartStore()
           <tbody>
             <tr v-for="i in cartStore.cartList" :key="i.id">
               <td>
-                <el-checkbox />
+                <el-checkbox v-model="i.selected" @change="(selected) => singleCheck(i.skuId, selected)"/>
               </td>
               <td>
                 <div class="goods">
@@ -37,7 +42,7 @@ const cartStore = useCartStore()
                 </div>
               </td>
               <td class="tc">
-                <p>&yen;{{ i.price }}</p>
+                <p>${{ i.price }}</p>
               </td>
               <td class="tc">
                 <el-input-number v-model="i.count" />
