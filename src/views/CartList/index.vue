@@ -1,10 +1,14 @@
 <script setup>
 import { useCartStore } from '@/stores/cart'
 const cartStore = useCartStore()
-
+// 商品單選功能
 const singleCheck = (skuId, selected) => {
   // console.log(skuId, selected);
   cartStore.singleCheck(skuId, selected)
+}
+// 商品全選功能
+const allCheck = (selected) => {
+  cartStore.isAll(selected)
 }
 </script>
 
@@ -16,7 +20,7 @@ const singleCheck = (skuId, selected) => {
           <thead>
             <tr>
               <th width="120">
-                <el-checkbox/> 全選
+                <el-checkbox :model-value="cartStore.allCheck" @change="allCheck"/> 全選
               </th>
               <th width="400">商品資訊</th>
               <th width="220">單價</th>
@@ -29,7 +33,7 @@ const singleCheck = (skuId, selected) => {
           <tbody>
             <tr v-for="i in cartStore.cartList" :key="i.id">
               <td>
-                <el-checkbox v-model="i.selected" @change="(selected) => singleCheck(i.skuId, selected)"/>
+                <el-checkbox :model-value="i.selected" @change="(selected) => singleCheck(i.skuId, selected)"/>
               </td>
               <td>
                 <div class="goods">
@@ -52,7 +56,7 @@ const singleCheck = (skuId, selected) => {
               </td>
               <td class="tc">
                 <p>
-                  <el-popconfirm title="確定要刪除嗎?" confirm-button-text="確定" cancel-button-text="取消" @confirm="cartStore.delCart(i)">
+                  <el-popconfirm title="確定要刪除嗎?" confirm-button-text="確定" cancel-button-text="取消" @confirm="cartStore.delCart(i.skuId)">
                     <template #reference>
                       <a href="javascript:;">刪除</a>
                     </template>

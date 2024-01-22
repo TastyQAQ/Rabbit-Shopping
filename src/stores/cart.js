@@ -37,13 +37,23 @@ export const useCartStore = defineStore('cart', () => {
         })
         item.selected = selected
     }
+    // 商品全選功能(根據單選框決定全選框是否勾選)
+    const allCheck = computed(() => {
+        return cartList.value.every((item) => { return item.selected })
+    })
+    // 商品全選功能(根據全選框決定每個單選框是否勾選)
+    const isAll = (selected) => {
+        cartList.value.forEach(item => { item.selected = selected })
+    }
     return {
         cartList,
         addCart,
         allCount,
         allPrice,
         delCart,
-        singleCheck
+        singleCheck,
+        allCheck,
+        isAll
     }
 }, {
   persist: true
