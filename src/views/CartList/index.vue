@@ -1,5 +1,6 @@
 <script setup>
-const cartList = []
+import { useCartStore } from '@/stores/cart'
+const cartStore = useCartStore()
 </script>
 
 <template>
@@ -10,7 +11,7 @@ const cartList = []
           <thead>
             <tr>
               <th width="120">
-                <el-checkbox/>
+                <el-checkbox/> 全選
               </th>
               <th width="400">商品資訊</th>
               <th width="220">單價</th>
@@ -21,7 +22,7 @@ const cartList = []
           </thead>
           <!-- 商品列表 -->
           <tbody>
-            <tr v-for="i in cartList" :key="i.id">
+            <tr v-for="i in cartStore.cartList" :key="i.id">
               <td>
                 <el-checkbox />
               </td>
@@ -54,7 +55,7 @@ const cartList = []
                 </p>
               </td>
             </tr>
-            <tr v-if="cartList.length === 0">
+            <tr v-if="cartStore.cartList.length === 0">
               <td colspan="6">
                 <div class="cart-none">
                   <el-empty description="購物車列表為空">
