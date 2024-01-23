@@ -11,3 +11,7 @@ export function getCartList() {
 export function delCartList(data) {
     return request.delete('/member/cart', { data })
 }
+// 合併非登入及登入狀態下的購物車
+export function mergeCartList(data) {
+    return request.post('/member/cart/merge', data)
+}

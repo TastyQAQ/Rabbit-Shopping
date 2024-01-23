@@ -7,13 +7,17 @@ import { ElMessage } from "element-plus"
 export const useCartStore = defineStore('cart', () => {
     const userStore = useUserStore()
     const cartList = ref([])
+    // 獲取登入後的購物車列表數據
+    const updateCartList = async() => {
+        const res = await getCartList()
+        cartList.value = res.result
+    }
     const addCart = async(goods) => {
         if(userStore.userInfo.token) {
             // 加入個人購物車(登入)
            await addCartList({skuId: goods.skuId, count: goods.count})
            // 獲取登入後的購物車數據
-           const res = await getCartList()
-           cartList.value = res.result
+           updateCartList()
         } else {
             // 未登入的加入購物車操作
             // 根據商品的skuId查看傳入的商品是否已存在購物車內
@@ -76,6 +80,10 @@ export const useCartStore = defineStore('cart', () => {
     const checkedAllPrice = computed(() => {
         return cartList.value.filter(item => { return item.selected }).reduce((prev, current) => { return prev + (current.count * current.price) }, 0)
     })
+    // 清除購物車數據(避免登出後購物車仍有數據)
+    const clearCart = () => {
+        cartList.value = []
+    }
     return {
         cartList,
         addCart,
@@ -86,7 +94,9 @@ export const useCartStore = defineStore('cart', () => {
         allCheck,
         isAll,
         checkedAllCount,
-        checkedAllPrice
+        checkedAllPrice,
+        updateCartList,
+        clearCart
     }
 }, {
   persist: true
