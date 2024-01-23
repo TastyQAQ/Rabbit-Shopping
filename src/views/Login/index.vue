@@ -6,9 +6,9 @@ import { useRouter } from 'vue-router'
 
 const loginRef = ref()
 const loginForm = ref({
-  account: '',
-  password: '',
-  agree: false
+  account: 'xiaotuxian001',
+  password: '123456',
+  agree: true
 })
 const loginRules = {
   account: [

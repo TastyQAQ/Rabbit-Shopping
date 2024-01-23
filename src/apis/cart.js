@@ -7,3 +7,7 @@ export function addCartList(data) {
 export function getCartList() {
     return request.get('/member/cart')
 }
+// 刪除購物車商品
+export function delCartList(data) {
+    return request.delete('/member/cart', { data })
+}

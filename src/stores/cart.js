@@ -1,7 +1,8 @@
 import { defineStore } from "pinia"
 import { ref, computed } from 'vue'
 import { useUserStore } from './user'
-import { addCartList, getCartList } from '@/apis/cart'
+import { addCartList, getCartList, delCartList } from '@/apis/cart'
+import { ElMessage } from "element-plus"
 
 export const useCartStore = defineStore('cart', () => {
     const userStore = useUserStore()
@@ -14,7 +15,7 @@ export const useCartStore = defineStore('cart', () => {
            const res = await getCartList()
            cartList.value = res.result
         } else {
-            // 未登入的購物車操作
+            // 未登入的加入購物車操作
             // 根據商品的skuId查看傳入的商品是否已存在購物車內
             const item = cartList.value.find(item => {
                 return item.skuId === goods.skuId
@@ -37,10 +38,20 @@ export const useCartStore = defineStore('cart', () => {
         return cartList.value.reduce((prev, current) => { return prev + (current.price * current.count) }, 0)
     })
     // 從購物車移除
-    const delCart = (id) => {
-        cartList.value = cartList.value.filter(item => {
-            return item.skuId !== id
-        })
+    const delCart = async(skuId) => {
+        if(userStore.userInfo.token) {
+            // 刪除個人購物車(登入)
+            await delCartList({ids: [skuId]})
+            ElMessage.success('已從購物車中移除')
+            // 重新獲取並渲染購物車列表
+            const res = await getCartList()
+            cartList.value = res.result
+        } else {
+            // 未登入的刪除購物車操作
+            cartList.value = cartList.value.filter(item => {
+                return item.skuId !== skuId
+            })
+        }
     }
     // 商品單選功能
     const singleCheck = (skuId, selected) => {
