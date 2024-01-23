@@ -1,19 +1,29 @@
 import { defineStore } from "pinia"
 import { ref, computed } from 'vue'
+import { useUserStore } from './user'
+import { getCartList } from '@/apis/cart'
 
 export const useCartStore = defineStore('cart', () => {
+    const userStore = useUserStore()
     const cartList = ref([])
-    const addCart = (goods) => {
-        // 根據商品的skuId查看傳入的商品是否已存在購物車內
-        const item = cartList.value.find(item => {
-            return item.skuId === goods.skuId
-        })
-        // 若商品已在購物車內, 則商品數量加1
-        if(item) {
-            item.count += goods.count
-            // 若商品不在購物車內, 則將商品添加至購物車
+    const addCart = async(goods) => {
+        if(userStore.userInfo.token) {
+            // 獲取登入後的購物車數據
+           const res =  await getCartList({skuId: goods.skuId, count: goods.count})
+           cartList.value =res.result
         } else {
-            cartList.value.push(goods)
+            // 未登入的購物車操作
+            // 根據商品的skuId查看傳入的商品是否已存在購物車內
+            const item = cartList.value.find(item => {
+                return item.skuId === goods.skuId
+            })
+            // 若商品已在購物車內, 則商品數量加1
+            if(item) {
+                item.count += goods.count
+                // 若商品不在購物車內, 則將商品添加至購物車
+            } else {
+                cartList.value.push(goods)
+            }
         }
     }
     // 商品總數量
