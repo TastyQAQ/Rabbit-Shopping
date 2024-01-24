@@ -19,3 +19,7 @@ export function mergeCartList(data) {
 export function changeCartCount(id, data) {
     return request.put(`/member/cart/${id}`, data)
 }
+// 修改商品選擇狀態
+export function changeCartSelected(data) {
+    return request.put('/member/cart/selected', data)
+}

@@ -1,6 +1,8 @@
 <script setup>
 import { useCartStore } from '@/stores/cart'
-import { changeCartCount } from '@/apis/cart'
+import { changeCartCount, changeCartSelected } from '@/apis/cart'
+import { useRouter } from 'vue-router'
+const router = useRouter()
 const cartStore = useCartStore()
 // 商品單選功能
 const singleCheck = (skuId, selected) => {
@@ -14,6 +16,11 @@ const allCheck = (selected) => {
 // 修改商品數量
 const changeCount = async(id, data) => {
   await changeCartCount(id, data)
+}
+// 修改商品選擇狀態
+const changeSelected = async() => {
+  await changeCartSelected({selected: cartStore.allCheck, ids: cartStore.selectedCart})
+  router.push('/checkout')
 }
 </script>
 
@@ -89,7 +96,7 @@ const changeCount = async(id, data) => {
           <span class="red">$ {{ cartStore.checkedAllPrice.toFixed(2) }} </span>
         </div>
         <div class="total">
-          <el-button size="large" type="primary" @click="$router.push('/checkout')" :disabled="cartStore.cartList.length < 1">下單結算</el-button>
+          <el-button size="large" type="primary" @click="changeSelected" :disabled="cartStore.cartList.length < 1">下單結算</el-button>
         </div>
       </div>
     </div>

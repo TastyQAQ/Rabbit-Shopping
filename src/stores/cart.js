@@ -84,6 +84,10 @@ export const useCartStore = defineStore('cart', () => {
     const clearCart = () => {
         cartList.value = []
     }
+    // 選中的商品id
+    const selectedCart = computed(() => {
+        return cartList.value.filter(item => { return item.selected === allCheck.value }).map(item => { return item.skuId })
+    })
     return {
         cartList,
         addCart,
@@ -96,7 +100,8 @@ export const useCartStore = defineStore('cart', () => {
         checkedAllCount,
         checkedAllPrice,
         updateCartList,
-        clearCart
+        clearCart,
+        selectedCart
     }
 }, {
   persist: true
