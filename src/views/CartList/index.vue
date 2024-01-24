@@ -1,5 +1,6 @@
 <script setup>
 import { useCartStore } from '@/stores/cart'
+import { changeCartCount } from '@/apis/cart'
 const cartStore = useCartStore()
 // 商品單選功能
 const singleCheck = (skuId, selected) => {
@@ -9,6 +10,10 @@ const singleCheck = (skuId, selected) => {
 // 商品全選功能
 const allCheck = (selected) => {
   cartStore.isAll(selected)
+}
+// 修改商品數量
+const changeCount = async(id, data) => {
+  await changeCartCount(id, data)
 }
 </script>
 
@@ -49,7 +54,7 @@ const allCheck = (selected) => {
                 <p>${{ i.price }}</p>
               </td>
               <td class="tc">
-                <el-input-number v-model="i.count" />
+                <el-input-number v-model="i.count" :min="1" @change="(num) => {changeCount(i.skuId, {selected: i.selected, count: num})}" />
               </td>
               <td class="tc">
                 <p class="f16 red">${{ (i.price * i.count).toFixed(2) }}</p>
@@ -68,7 +73,7 @@ const allCheck = (selected) => {
               <td colspan="6">
                 <div class="cart-none">
                   <el-empty description="購物車列表為空">
-                    <el-button type="primary">隨便逛逛</el-button>
+                    <el-button type="primary" @click="$router.push('/')">隨便逛逛</el-button>
                   </el-empty>
                 </div>
               </td>
@@ -84,7 +89,7 @@ const allCheck = (selected) => {
           <span class="red">$ {{ cartStore.checkedAllPrice.toFixed(2) }} </span>
         </div>
         <div class="total">
-          <el-button size="large" type="primary" @click="$router.push('/checkout')">下單結算</el-button>
+          <el-button size="large" type="primary" @click="$router.push('/checkout')" :disabled="cartStore.cartList.length < 1">下單結算</el-button>
         </div>
       </div>
     </div>

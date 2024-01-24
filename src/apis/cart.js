@@ -15,3 +15,7 @@ export function delCartList(data) {
 export function mergeCartList(data) {
     return request.post('/member/cart/merge', data)
 }
+// 修改購物車商品數量
+export function changeCartCount(id, data) {
+    return request.put(`/member/cart/${id}`, data)
+}
