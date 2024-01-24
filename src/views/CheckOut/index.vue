@@ -2,11 +2,26 @@
 import { getOrderData } from '@/apis/checkout'
 import { ref, onMounted } from 'vue'
 const checkInfo = ref({}) // 訂單對象
+const addressInfo = ref({}) // 地址對象
 const getOrder = async() => {
   const res = await getOrderData()
   checkInfo.value = res.result
+  // 選用默認地址
+  addressInfo.value = checkInfo.value.userAddresses?.find(item => { return item.isDefault === 0 })
 }
 onMounted(() => {getOrder()})
+// 控制切換地址彈層
+const toggleFlag = ref(false)
+const activeAddress = ref({}) // 選中的地址
+// 切換地址
+const switchAddress = (item) => {
+  activeAddress.value = item
+}
+// 切換當前顯示的地址
+const setAddress = () => {
+  addressInfo.value = activeAddress.value
+  toggleFlag.value = false
+}
 </script>
 
 <template>
@@ -20,9 +35,9 @@ onMounted(() => {getOrder()})
             <div class="text">
               <div class="none" v-if="!checkInfo.userAddresses">您需要先添加收貨地址才可提交訂單。</div>
               <ul v-else>
-                <li><span>收<i />貨<i />人：</span>{{ checkInfo.userAddresses.receiver }}</li>
-                <li><span>聯繫方式：</span>{{ checkInfo.userAddresses.contact }}</li>
-                <li><span>收貨地址：</span>{{ checkInfo.userAddresses.fullLocation }} {{ checkInfo.userAddresses.address }}</li>
+                <li><span>收<i />貨<i />人：</span>{{ addressInfo.receiver }}</li>
+                <li><span>聯繫方式：</span>{{ addressInfo.contact }}</li>
+                <li><span>收貨地址：</span>{{ addressInfo.fullLocation }} {{ addressInfo.address }}</li>
               </ul>
             </div>
             <div class="action">
@@ -107,6 +122,23 @@ onMounted(() => {getOrder()})
     </div>
   </div>
   <!-- 切換地址 -->
+  <el-dialog title="切換收貨地址" width="30%" center v-model="toggleFlag">
+  <div class="addressWrapper">
+    <div class="text item" v-for="item in checkInfo.userAddresses" :key="item.id" @click="switchAddress(item)" :class="{ active: item.id === activeAddress.id }">
+      <ul>
+      <li><span>收<i />貨<i />人：</span>{{ item.receiver }} </li>
+      <li><span>聯繫方式：</span>{{ item.contact }}</li>
+      <li><span>收貨地址：</span>{{ item.fullLocation + item.address }}</li>
+      </ul>
+    </div>
+  </div>
+  <template #footer>
+    <span class="dialog-footer">
+      <el-button @click="toggleFlag = false">取消</el-button>
+      <el-button type="primary" @click="setAddress">確定</el-button>
+    </span>
+  </template>
+</el-dialog>
   <!-- 添加地址 -->
 </template>
 
