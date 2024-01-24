@@ -56,7 +56,7 @@ onMounted(() => {getOrder()})
                   </a>
                 </td>
                 <td>${{ i.price }}</td>
-                <td>{{ i.price }}</td>
+                <td>{{ i.count }}</td>
                 <td>${{ i.totalPrice }}</td>
                 <td>${{ i.totalPayPrice }}</td>
               </tr>

@@ -21,7 +21,7 @@ const cartStore = useCartStore()
                         <p class="attr ellipsis">{{ i.attrsText }}</p>
                         </div>
                         <div class="right">
-                        <p class="price">&yen;{{ i.price }}</p>
+                        <p class="price">${{ i.price }}</p>
                         <p class="count">x{{ i.count }}</p>
                         </div>
                     </RouterLink>
