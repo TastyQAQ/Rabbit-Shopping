@@ -1,7 +1,12 @@
 <script setup>
-const checkInfo = {}  // 訂單對象
-const curAddress = {}  // 地址對象
-
+import { getOrderData } from '@/apis/checkout'
+import { ref, onMounted } from 'vue'
+const checkInfo = ref({}) // 訂單對象
+const getOrder = async() => {
+  const res = await getOrderData()
+  checkInfo.value = res.result
+}
+onMounted(() => {getOrder()})
 </script>
 
 <template>
@@ -13,11 +18,11 @@ const curAddress = {}  // 地址對象
         <div class="box-body">
           <div class="address">
             <div class="text">
-              <div class="none" v-if="!curAddress">您需要先添加收貨地址才可提交訂單。</div>
+              <div class="none" v-if="!checkInfo.userAddresses">您需要先添加收貨地址才可提交訂單。</div>
               <ul v-else>
-                <li><span>收<i />貨<i />人：</span>{{ curAddress.receiver }}</li>
-                <li><span>聯繫方式：</span>{{ curAddress.contact }}</li>
-                <li><span>收貨地址：</span>{{ curAddress.fullLocation }} {{ curAddress.address }}</li>
+                <li><span>收<i />貨<i />人：</span>{{ checkInfo.userAddresses.receiver }}</li>
+                <li><span>聯繫方式：</span>{{ checkInfo.userAddresses.contact }}</li>
+                <li><span>收貨地址：</span>{{ checkInfo.userAddresses.fullLocation }} {{ checkInfo.userAddresses.address }}</li>
               </ul>
             </div>
             <div class="action">
@@ -50,15 +55,15 @@ const curAddress = {}  // 地址對象
                     </div>
                   </a>
                 </td>
-                <td>&yen;{{ i.price }}</td>
+                <td>${{ i.price }}</td>
                 <td>{{ i.price }}</td>
-                <td>&yen;{{ i.totalPrice }}</td>
-                <td>&yen;{{ i.totalPayPrice }}</td>
+                <td>${{ i.totalPrice }}</td>
+                <td>${{ i.totalPayPrice }}</td>
               </tr>
             </tbody>
           </table>
         </div>
-        <!-- 配送时间 -->
+        <!-- 配送時間 -->
         <h3 class="box-title">配送時間</h3>
         <div class="box-body">
           <a class="my-btn active" href="javascript:;">不限送貨時間：周一至周日</a>
