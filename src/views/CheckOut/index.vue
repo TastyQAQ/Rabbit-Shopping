@@ -1,6 +1,8 @@
 <script setup>
-import { getOrderData } from '@/apis/checkout'
+import { getOrderData, delAddress } from '@/apis/checkout'
 import { ref, onMounted } from 'vue'
+import AddressDialog from './components/AddressDialog.vue'
+import { ElMessage } from 'element-plus'
 const checkInfo = ref({}) // 訂單對象
 const addressInfo = ref({}) // 地址對象
 const getOrder = async() => {
@@ -22,6 +24,23 @@ const setAddress = () => {
   addressInfo.value = activeAddress.value
   toggleFlag.value = false
 }
+// 刪除地址並重新渲染數據
+const deleteAddress = async() => {
+  await delAddress(addressInfo.value.id)
+  ElMessage.success('已從地址列表中移除')
+  getOrder()
+}
+
+const showFlag = ref(false) // 添加及修改地址彈層組件控件
+const title = ref('')
+const editAddress = ref({})
+const handleAddress = (mark, data) => {
+  showFlag.value = true
+  title.value = mark
+  if (mark === 'edit') {
+    editAddress.value = data
+  } 
+}
 </script>
 
 <template>
@@ -34,15 +53,23 @@ const setAddress = () => {
           <div class="address">
             <div class="text">
               <div class="none" v-if="!checkInfo.userAddresses">您需要先添加收貨地址才可提交訂單。</div>
-              <ul v-else>
-                <li><span>收<i />貨<i />人：</span>{{ addressInfo.receiver }}</li>
-                <li><span>聯繫方式：</span>{{ addressInfo.contact }}</li>
-                <li><span>收貨地址：</span>{{ addressInfo.fullLocation }} {{ addressInfo.address }}</li>
-              </ul>
+              <div v-else class="show">
+                <ul>
+                  <li><span>收<i />貨<i />人：</span>{{ addressInfo?.receiver }}</li>
+                  <li><span>聯繫方式：</span>{{ addressInfo?.contact }}</li>
+                  <li><span>收貨地址：</span>{{ addressInfo?.fullLocation }} {{ addressInfo?.address }}</li>
+                </ul>
+                <el-button size="large" v-show="addressInfo" @click="handleAddress('edit', addressInfo)">修改地址</el-button>
+                <el-popconfirm title="確定要刪除此地址嗎?" confirm-button-text="確定" cancel-button-text="取消" @confirm="deleteAddress">
+                  <template #reference>
+                    <el-button size="large" v-show="addressInfo">刪除地址</el-button>
+                  </template>
+                </el-popconfirm>
+              </div>
             </div>
             <div class="action">
-              <el-button size="large" @click="toggleFlag = true">切換地址</el-button>
-              <el-button size="large" @click="addFlag = true">添加地址</el-button>
+              <el-button size="large" @click="toggleFlag = true">選擇地址</el-button>
+              <el-button size="large" @click="handleAddress('add')">添加地址</el-button>
             </div>
           </div>
         </div>
@@ -123,23 +150,24 @@ const setAddress = () => {
   </div>
   <!-- 切換地址 -->
   <el-dialog title="切換收貨地址" width="30%" center v-model="toggleFlag">
-  <div class="addressWrapper">
-    <div class="text item" v-for="item in checkInfo.userAddresses" :key="item.id" @click="switchAddress(item)" :class="{ active: item.id === activeAddress.id }">
-      <ul>
-      <li><span>收<i />貨<i />人：</span>{{ item.receiver }} </li>
-      <li><span>聯繫方式：</span>{{ item.contact }}</li>
-      <li><span>收貨地址：</span>{{ item.fullLocation + item.address }}</li>
-      </ul>
+    <div class="addressWrapper">
+      <div class="text item" v-for="item in checkInfo.userAddresses" :key="item.id" @click="switchAddress(item)" :class="{ active: item.id === activeAddress.id }">
+        <ul>
+        <li><span>收<i />貨<i />人：</span>{{ item.receiver }} </li>
+        <li><span>聯繫方式：</span>{{ item.contact }}</li>
+        <li><span>收貨地址：</span>{{ item.fullLocation + item.address }}</li>
+        </ul>
+      </div>
     </div>
-  </div>
-  <template #footer>
-    <span class="dialog-footer">
-      <el-button @click="toggleFlag = false">取消</el-button>
-      <el-button type="primary" @click="setAddress">確定</el-button>
-    </span>
-  </template>
-</el-dialog>
+    <template #footer>
+      <span class="dialog-footer">
+        <el-button @click="toggleFlag = false">取消</el-button>
+        <el-button type="primary" @click="setAddress">確定</el-button>
+      </span>
+    </template>
+  </el-dialog>
   <!-- 添加地址 -->
+  <AddressDialog :showFlag="showFlag" @close="(value) => {showFlag = value}" @update="getOrder" :title="title" :addressInfo="editAddress"></AddressDialog>
 </template>
 
 <style scoped lang="scss">
@@ -181,8 +209,14 @@ const setAddress = () => {
       text-align: center;
       width: 100%;
     }
+    .show {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
 
-    >ul {
+    ul {
       flex: 1;
       padding: 20px;
 
