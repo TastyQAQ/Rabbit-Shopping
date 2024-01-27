@@ -1,5 +1,14 @@
 <script setup>
-
+import { getOrderDetails } from '@/apis/pay'
+import { ref, onMounted } from 'vue'
+import { useRoute } from 'vue-router'
+const route = useRoute()
+const orderInfo = ref({})
+const orderDetails = async() => {
+    const res = await getOrderDetails(route.params.id)
+    orderInfo.value = res.result
+}
+onMounted(() => { orderDetails() })
 </script>
 
 
@@ -9,14 +18,14 @@
       <!-- 支付结果 -->
       <div class="pay-result">
         <span class="iconfont icon-queren2 green"></span>
-        <span class="iconfont icon-shanchu red"></span>
+        <!-- <span class="iconfont icon-shanchu red"></span> -->
         <p class="tit">付款成功</p>
         <p class="tip">我們將盡快為您發貨，收貨期間請保持手機暢通</p>
         <p>付款方式：<span>支付宝</span></p>
-        <p>付款金額：<span>$200.00</span></p>
+        <p>付款金額：<span>${{orderInfo.payMoney?.toFixed(2)}}</span></p>
         <div class="btn">
           <el-button type="primary" style="margin-right:20px">查看訂單</el-button>
-          <el-button>進入首頁</el-button>
+          <el-button @click="$router.replace('/')">進入首頁</el-button>
         </div>
         <p class="alert">
           <span class="iconfont icon-tip"></span>

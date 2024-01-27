@@ -46,7 +46,7 @@ const router = createRouter({
           component: Pay
         },
         {
-          path: '/paycallback',
+          path: '/paycallback/:id',
           component: PayBack
         }
       ]

@@ -19,8 +19,12 @@ onMounted(() => {getOrder()})
 // 支付地址
 // const baseURL = 'http://pcapi-xiaotuxian-front-devtest.itheima.net/'
 // const backURL = 'http://127.0.0.1:5173/paycallback'
+// const backURL = 'http://localhost:5173//paycallback'
 // const redirectUrl = encodeURIComponent(backURL)
 // const payUrl = `${baseURL}pay/aliPay?orderId=${route.params.id}&redirect=${redirectUrl}`
+// const aliPay = async() => {
+//     await handleAliPay({orderId: route.params.id, redirect: redirectUrl})
+// }
 </script>
 
 
@@ -43,9 +47,10 @@ onMounted(() => {getOrder()})
       <div class="pay-type">
         <p class="head">選擇您要使用的付款方式</p>
         <div class="item">
-          <p>付款平台</p>
+          <p>付款平台(請點選支付宝)</p>
           <a class="btn wx" href="javascript:;"></a>
-          <a class="btn alipay" :href="$router.push('/paycallback')" ></a>
+          <a class="btn alipay" href="javascript:;" @click="$router.replace(`/paycallback/${payInfo.id}`)" ></a>
+          <!-- <a class="btn alipay" href="javascript:;" @click="aliPay"></a> -->
         </div>
         <div class="item">
           <p>付款方式</p>
