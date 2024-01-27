@@ -17,10 +17,10 @@ const getOrder = async() => {
 onMounted(() => {getOrder()})
 
 // 支付地址
-const baseURL = 'http://pcapi-xiaotuxian-front-devtest.itheima.net/'
-const backURL = 'http://127.0.0.1:5173/paycallback'
-const redirectUrl = encodeURIComponent(backURL)
-const payUrl = `${baseURL}pay/aliPay?orderId=${route.query.id}&redirect=${redirectUrl}`
+// const baseURL = 'http://pcapi-xiaotuxian-front-devtest.itheima.net/'
+// const backURL = 'http://127.0.0.1:5173/paycallback'
+// const redirectUrl = encodeURIComponent(backURL)
+// const payUrl = `${baseURL}pay/aliPay?orderId=${route.params.id}&redirect=${redirectUrl}`
 </script>
 
 
@@ -45,7 +45,7 @@ const payUrl = `${baseURL}pay/aliPay?orderId=${route.query.id}&redirect=${redire
         <div class="item">
           <p>付款平台</p>
           <a class="btn wx" href="javascript:;"></a>
-          <a class="btn alipay" :href="payUrl"></a>
+          <a class="btn alipay" :href="$router.push('/paycallback')" ></a>
         </div>
         <div class="item">
           <p>付款方式</p>
