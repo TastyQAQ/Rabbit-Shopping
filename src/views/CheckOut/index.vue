@@ -1,8 +1,11 @@
 <script setup>
 import { getOrderData, delAddress } from '@/apis/checkout'
+import { submitOrder } from '@/apis/pay'
 import { ref, onMounted } from 'vue'
 import AddressDialog from './components/AddressDialog.vue'
 import { ElMessage } from 'element-plus'
+import { useRouter } from 'vue-router'
+const router = useRouter()
 const checkInfo = ref({}) // 訂單對象
 const addressInfo = ref({}) // 地址對象
 const getOrder = async() => {
@@ -40,6 +43,19 @@ const handleAddress = (mark, data) => {
   if (mark === 'edit') {
     editAddress.value = data
   } 
+}
+
+// 提交訂單
+const submit = async() => {
+  const res = await submitOrder({
+    deliveryTimeType: 1, // 配送時間, 默認1
+    payType: 1, // 付款方式, 默認1(在線支付)
+    payChannel: 1, // 支付管道, 默認1(支付寶)
+    buyerMessage: '', // 買家備註留言
+    goods: checkInfo.value.goods.map(item => {return {skuId: item.skuId, count: item.count}}), // 商品skuId&count
+    addressId: addressInfo.value.id // 地址id
+  })
+  router.push(`/pay/${res.result.id}`)
 }
 </script>
 
@@ -143,7 +159,7 @@ const handleAddress = (mark, data) => {
         </div>
         <!-- 提交訂單 -->
         <div class="submit">
-          <el-button type="primary" size="large" >提交訂單</el-button>
+          <el-button type="primary" size="large" @click="submit">提交訂單</el-button>
         </div>
       </div>
     </div>
