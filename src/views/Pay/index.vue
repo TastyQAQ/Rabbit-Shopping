@@ -2,6 +2,9 @@
 import { getOrderDetails } from '@/apis/pay'
 import { ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
+// 自訂倒計時函數
+import { useCountdown } from '@/composables/useCountdown'
+const { formatTime, start } = useCountdown()
 
 const route = useRoute()
 const payInfo = ref({})
@@ -13,6 +16,7 @@ const payInfo = ref({})
 const getOrder = async() => {
    const res = await getOrderDetails(route.params.id)
    payInfo.value = res.result
+   start(payInfo.value.countdown)
 }
 onMounted(() => {getOrder()})
 
@@ -36,7 +40,7 @@ onMounted(() => {getOrder()})
         <span class="icon iconfont icon-queren2"></span>
         <div class="tip">
           <p>訂單提交成功！請盡快完成付款。</p>
-          <p>付款還剩 <span>24分30秒</span>, 超時後將取消訂單</p>
+          <p>付款還剩 <span>{{ formatTime }}</span>, 超時後將取消訂單</p>
         </div>
         <div class="amount">
           <span>應付總額：</span>
