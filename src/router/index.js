@@ -10,6 +10,7 @@ import CheckOut from '@/views/CheckOut/index.vue'
 import Pay from '@/views/Pay/index.vue'
 import PayBack from '@/views/Pay/PayBack.vue'
 import Member from '@/views/Member/index.vue'
+import MemberInfo from '@/components/UserInfo.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -52,7 +53,13 @@ const router = createRouter({
         },
         {
           path: '/member',
-          component: Member
+          component: Member,
+          children: [
+            {
+              path: '',
+              component: MemberInfo
+            }
+          ]
         }
       ]
     },

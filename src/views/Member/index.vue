@@ -18,7 +18,7 @@
     </div>
     <div class="article">
       <!-- 三級路由地掛載點 -->
-      <!-- <RouterView /> -->
+      <RouterView />
     </div>
   </div>
 </template>
