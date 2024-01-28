@@ -29,7 +29,7 @@ const logout = () => {
                         <a href="javascript:;">我的訂單</a>
                     </li>
                     <li>
-                        <a href="javascript:;">會員中心</a>
+                        <a href="javascript:;" @click="router.push('/member')">會員中心</a>
                     </li>
                 </template>
                 <template v-else >
