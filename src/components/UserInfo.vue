@@ -1,6 +1,16 @@
 <script setup>
 import { useUserStore } from '@/stores/user'
+import { getLikeRelative } from '@/apis/user'
+import { ref, onMounted } from 'vue'
+import GoodsItem from './GoodsItem.vue'
 const userStore = useUserStore()
+// 獲取猜您喜歡商品數據
+const likeList = ref([])
+const getLikes = async() => {
+  const res = await getLikeRelative({limit: 4})
+  likeList.value = res.result
+}
+onMounted(() => {getLikes()})
 </script>
 
 <template>
@@ -33,7 +43,7 @@ const userStore = useUserStore()
         <h4 data-v-bcb266e0="">猜您喜歡</h4>
       </div>
       <div class="goods-list">
-        <!-- <GoodsItem v-for="good in likeList" :key="good.id" :good="good" /> -->
+        <GoodsItem v-for="good in likeList" :key="good.id" :goods="good" />
       </div>
     </div>
   </div>
