@@ -3,3 +3,7 @@ import request from '@/utils/http'
 export function getLikeRelative({ limit = 4 }) {
     return request.get('/goods/relevant', { params: {limit} })
 }
+// 獲取用戶訂單訊息
+export function getMyOrder(params) {
+    return request.get('/member/order', params)
+}

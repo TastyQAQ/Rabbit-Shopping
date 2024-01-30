@@ -1,4 +1,6 @@
 <script setup>
+import { getMyOrder } from '@/apis/user'
+import { ref, onMounted } from 'vue'
 // tab列表
 const tabTypes = [
   { name: "all", label: "全部訂單" },
@@ -10,13 +12,29 @@ const tabTypes = [
   { name: "cancel", label: "已取消" }
 ]
 // 訂單列表
-const orderList = []
+const orderList = ref([])
+const params = ref({
+  orderState: 0,
+  page: 1,
+  pageSize: 2
+})
+const getOrder = async() => {
+  const res = await getMyOrder(params.value)
+  orderList.value = res.result.items
+  console.log(res.result)
+}
+onMounted(() => {getOrder()})
 
+// tab切換
+const tabChange = (type) => {
+  params.value.orderState = Number(type)
+  getOrder()
+}
 </script>
 
 <template>
   <div class="order-container">
-    <el-tabs>
+    <el-tabs @tab-change="tabChange">
       <!-- tab切換 -->
       <el-tab-pane v-for="item in tabTypes" :key="item.name" :label="item.label" />
 
@@ -31,7 +49,7 @@ const orderList = []
               <span>下單時間：{{ order.createTime }}</span>
               <span>訂單編號：{{ order.id }}</span>
               <!-- 未付款，倒計時時間還有 -->
-              <span class="down-time" v-if="order.orderState === 1">
+              <span class="down-time" v-if="order.orderState === 1 && order.countdown !== -1">
                 <i class="iconfont icon-down-time"></i>
                 <b>付款截止: {{order.countdown}}</b>
               </span>
