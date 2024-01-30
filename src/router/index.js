@@ -25,35 +25,35 @@ const router = createRouter({
           component: Home
         },
         {
-          path: '/category/:id',
+          path: 'category/:id',
           component: Category
         },
         {
-          path: '/category/sub/:id',
+          path: 'category/sub/:id',
           component: SubCategory
         },
         {
-          path: '/detail/:id',
+          path: 'detail/:id',
           component: Detail
         },
         {
-          path: '/cartlist',
+          path: 'cartlist',
           component: CartList
         },
         {
-          path: '/checkout',
+          path: 'checkout',
           component: CheckOut
         },
         {
-          path: '/pay/:id',
+          path: 'pay/:id',
           component: Pay
         },
         {
-          path: '/paycallback/:id',
+          path: 'paycallback/:id',
           component: PayBack
         },
         {
-          path: '/member',
+          path: 'member',
           component: Member,
           children: [
             {

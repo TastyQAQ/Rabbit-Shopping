@@ -12,6 +12,17 @@ const tabTypes = [
   { name: "complete", label: "已完成" },
   { name: "cancel", label: "已取消" }
 ]
+const orderStateRender = (state) => {
+  const orderState = {
+    1: '待付款',
+    2: '待發貨',
+    3: '待收貨',
+    4: '待評價',
+    5: '已完成',
+    6: '已取消'
+  }
+  return orderState[state]
+}
 // 訂單列表
 const orderList = ref([])
 const params = ref({
@@ -76,13 +87,13 @@ const pageChange = (page) => {
                         <span>{{ item.attrsText }}</span>
                       </p>
                     </div>
-                    <div class="price">¥{{ item.realPay?.toFixed(2) }}</div>
+                    <div class="price">${{ item.realPay?.toFixed(2) }}</div>
                     <div class="count">x{{ item.quantity }}</div>
                   </li>
                 </ul>
               </div>
               <div class="column state">
-                <p>{{ order.orderState }}</p>
+                <p>{{ orderStateRender(order.orderState) }}</p>
                 <p v-if="order.orderState === 3">
                   <a href="javascript:;" class="green">查看物流</a>
                 </p>
@@ -94,7 +105,7 @@ const pageChange = (page) => {
                 </p>
               </div>
               <div class="column amount">
-                <p class="red">¥{{ order.payMoney?.toFixed(2) }}</p>
+                <p class="red">${{ order.payMoney?.toFixed(2) }}</p>
                 <p>（含運費：${{ order.postFee?.toFixed(2) }}）</p>
                 <p>線上付款</p>
               </div>
