@@ -1,6 +1,7 @@
 <script setup>
 import { getMyOrder } from '@/apis/user'
 import { ref, onMounted } from 'vue'
+const total = ref(0)
 // tab列表
 const tabTypes = [
   { name: "all", label: "全部訂單" },
@@ -21,13 +22,19 @@ const params = ref({
 const getOrder = async() => {
   const res = await getMyOrder(params.value)
   orderList.value = res.result.items
-  console.log(res.result)
+  total.value = res.result.counts
 }
 onMounted(() => {getOrder()})
 
 // tab切換
 const tabChange = (type) => {
   params.value.orderState = Number(type)
+  getOrder()
+}
+
+// 切換頁數
+const pageChange = (page) => {
+  params.value.page = page
   getOrder()
 }
 </script>
@@ -112,7 +119,7 @@ const tabChange = (type) => {
           </div>
           <!-- 分頁 -->
           <div class="pagination-container">
-            <el-pagination background layout="prev, pager, next" />
+            <el-pagination background layout="prev, pager, next" :total="total" @current-change="pageChange" :pageSize="params.pageSize"/>
           </div>
         </div>
       </div>

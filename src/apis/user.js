@@ -5,5 +5,5 @@ export function getLikeRelative({ limit = 4 }) {
 }
 // 獲取用戶訂單訊息
 export function getMyOrder(params) {
-    return request.get('/member/order', params)
+    return request.get('/member/order', {params})
 }
