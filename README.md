@@ -1,35 +1,48 @@
-# rabbit-shopping
+此項目使用Vue3版本並基於vite架設, 請求接口為中國黑馬程序員創建
 
-This template should help get you started developing with Vue 3 in Vite.
+線上演示地址(黑馬程序員架設): https://erabbit.itheima.net/#/
 
-## Recommended IDE Setup
+# 小兔鮮ㄦ購物網
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+###### 此項目模擬電商網站, 包含加入購物車、生成訂單、結算等功能
 
-## Customize configuration
+<img src="https://img.onl/TfiLPP">
 
-See [Vite Configuration Reference](https://vitejs.dev/config/).
+## 主要功能
 
-## Project Setup
+**購物車**
 
-```sh
+<img src="https://img.onl/3OZaCw">
+
+**生成訂單**
+
+<img src="https://img.onl/t0Pznr">
+
+**會員管理**
+
+<img src="https://img.onl/zEO7g5">
+
+## 安裝
+
+```bash
+# 獲取專案
+git clone https://github.com/TastyQAQ/Rabbit-Shopping
+```
+
+```bash
+# 安裝套件
 pnpm install
 ```
 
-### Compile and Hot-Reload for Development
-
-```sh
-pnpm dev
-```
-
-### Compile and Minify for Production
-
-```sh
+```bash
+# 運行專案
 pnpm build
 ```
 
-### Lint with [ESLint](https://eslint.org/)
+## 主要工具
 
-```sh
-pnpm lint
-```
+* Vue v3.4.15
+* Vue Router v4.2.5
+* Pinia v2.1.7
+* element-plus v2.5.3
+* axios v1.6.7
