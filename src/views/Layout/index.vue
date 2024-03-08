@@ -15,7 +15,7 @@ const userStore = useUserStore()
 // 頁面創建後, 獲取分類列表以及購物車數據
 onMounted(() => {
   categoryStore.getCategory()
-  if(userStore.userInfo) {
+  if(userStore.userInfo.token) {
     cartStore.updateCartList()
   }
 })
