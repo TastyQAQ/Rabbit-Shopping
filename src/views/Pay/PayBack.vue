@@ -2,11 +2,14 @@
 import { getOrderDetails } from '@/apis/pay'
 import { ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
+import { useCartStore } from '@/stores/cart'
+const cartStore = useCartStore()
 const route = useRoute()
 const orderInfo = ref({})
 const orderDetails = async() => {
     const res = await getOrderDetails(route.params.id)
     orderInfo.value = res.result
+    cartStore.updateCartList()
 }
 onMounted(() => { orderDetails() })
 </script>
