@@ -27,7 +27,7 @@ onMounted(() => { orderDetails() })
         <p>付款方式：<span>支付宝</span></p>
         <p>付款金額：<span>${{orderInfo.payMoney?.toFixed(2)}}</span></p>
         <div class="btn">
-          <el-button type="primary" style="margin-right:20px">查看訂單</el-button>
+          <el-button type="primary" style="margin-right:20px" @click="$router.replace('/member/order')">查看訂單</el-button>
           <el-button @click="$router.replace('/')">進入首頁</el-button>
         </div>
         <p class="alert">
