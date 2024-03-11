@@ -21,6 +21,7 @@
 ##### 頁面頂部(含滾動頁面觸發的sticky導航)及底部導航, 用戶相關操作(登入、登出等)、各商品分類頁及購物車鏈結(點擊進購物車頁面、滑鼠停留顯示已加入購物車商品)
 
 * 頂部&底部&sticky導航(紅色區塊)
+
 <img src="https://img.onl/9h7Qur" width="400px"><img src="https://img.onl/sXoI0s" width="400px">
 
 * 購物車
@@ -37,6 +38,7 @@
 ##### 商品分類展示
 
 * 居家&美食頁
+
 <img src="https://img.onl/f00BKZ" width="400px"><img src="https://img.onl/F6L2FK" width="400px">
 
 ## 商品詳情頁
